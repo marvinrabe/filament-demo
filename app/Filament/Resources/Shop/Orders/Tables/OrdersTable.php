@@ -59,7 +59,13 @@ class OrdersTable
             ])
             ->filters([
                 TrashedFilter::make(),
-
+                Filter::make('foo')
+                      ->schema([
+                          TextInput::make('percentage')
+                              ->numeric()
+                              ->formatStateUsing(fn ($state) => $state * 100)
+                              ->dehydrateStateUsing(fn ($state) => $state / 100)
+                      ]),
                 Filter::make('created_at')
                     ->label('Order date')
                     ->schema([
